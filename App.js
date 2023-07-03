@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const session = require('express-session');
+
 const sessionRoutes = require('./routes/session-routes');
 const userRoutes = require('./routes/user-routes');
 const HttpError = require('./modules/http-error');
@@ -14,13 +14,8 @@ const fs = require('fs');
 const path = require('path');
 app.use(cors());
 
-app.use(
-    session({
-        secret: '12345',
-        resave: false,
-        saveUninitialized: true
-    })
-);
+
+
 
 app.use(bodyParser.json());
 
@@ -54,7 +49,7 @@ mongoose
 
         const io = new Server(server, {
             cors: {
-                origin: "http://localhost:3000",
+                origin: process.env.DB_FRONTEND,
                 methods: ["GET", "POST"],
             },
         });
