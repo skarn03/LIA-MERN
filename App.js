@@ -33,7 +33,11 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET , POST, PATCH, DELETE');
     next();
 });
-
+app.get('/api/',async(req,res,next)=>{
+    return res.json({
+        message:"Welcome"
+    })
+})
 app.use('/api/session', sessionRoutes);
 app.use('/api/users', userRoutes);
 
@@ -43,8 +47,8 @@ app.use((req, res, next) => {
 });
 
 
-
-mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.jbeoso0.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`)
+mongoose
+    .connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.jbeoso0.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`)
     .then(() => {
         const server = http.createServer(app);
 
@@ -52,7 +56,7 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD
             cors: {
                 origin: "http://localhost:3000",
                 methods: ["GET", "POST"],
-            }
+            },
         });
 
         io.on("connection", (socket) => {
@@ -70,10 +74,12 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD
             socket.on("disconnect", () => {
                 // Handle disconnect event
             });
-            socket.on('leave_room', roomID => {
+
+            socket.on("leave_room", (roomID) => {
                 // Leave the room
                 socket.leave(roomID);
             });
+
             socket.on("navigate_to_home", (data) => {
                 if (!data || data.room !== room || !data.session.users.includes(data.user)) {
                     return; // Abort if the room in the data doesn't match the current room
@@ -82,13 +88,18 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD
             });
         });
 
-
-        server.listen(5000, () => {
-
+        server.listen(process.env.PORT || 5000, () => {
+            console.log("Server is running on port 5000");
         });
 
-        io.listen(5000, () => {
+        io.listen(server, {
+            path: "/socket.io",
+            serveClient: false,
+            pingInterval: 10000,
+            pingTimeout: 5000,
+            cookie: false,
         });
     })
-    .catch(err => {
+    .catch((err) => {
+        console.error("Error connecting to MongoDB:", err);
     });
