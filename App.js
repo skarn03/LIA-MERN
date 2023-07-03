@@ -100,7 +100,7 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD
 
         });
 
-        io.listen(process.env.PORT || 5000, () => {
+        io.listen(process.env.PORT || 3000, () => {
         });
     })
     .catch(err => {
