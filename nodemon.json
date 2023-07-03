@@ -1,0 +1,8 @@
+{
+    "env":{
+        "DB_USER":"skarn",
+        "DB_PASSWORD":"LjqW1IsV5zVGPKci",
+        "DB_NAME":"LIA",
+        "JWT_KEY":"8d4b23786e38760aabbe6eerrfe65dafa7607b43d15d"
+    }
+}
