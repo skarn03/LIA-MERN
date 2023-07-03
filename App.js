@@ -42,20 +42,7 @@ app.use((req, res, next) => {
     throw error;
 });
 
-app.use((error, req, res, next) => {
-    if (req.file) {
-        fs.unlink(req.file.path, (err) => {
-          
-        });
-    }
-    if (res.headerSent) {
-        return next(error);
-    }
-    res.status(error.code || 500);
-    res.json({
-        message: error.message || 'Something went wrong'
-    });
-});
+
 
 mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.jbeoso0.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`)
     .then(() => {
@@ -96,11 +83,11 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD
         });
 
 
-        server.listen(process.env.PORT || 5000, () => {
+        server.listen(5000, () => {
 
         });
 
-        io.listen(process.env.PORT || 3000, () => {
+        io.listen(5000, () => {
         });
     })
     .catch(err => {
