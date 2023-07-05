@@ -28,9 +28,9 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET , POST, PATCH, DELETE');
     next();
 });
-app.get('/api/',async(req,res,next)=>{
+app.get('/api/', async (req, res, next) => {
     return res.json({
-        message:"Welcome"
+        message: "Welcome"
     })
 })
 app.use('/api/session', sessionRoutes);
@@ -40,7 +40,6 @@ app.use((req, res, next) => {
     const error = new HttpError('Could not find this route.', 404);
     throw error;
 });
-
 
 mongoose
     .connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.jbeoso0.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`)

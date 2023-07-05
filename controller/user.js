@@ -91,7 +91,7 @@ class UserController {
       const error = new HttpError('Try again later', 500);
       return next(error);
     }
-    req.session.userID = createdUser._id.toString();
+   
     res.json({
       message: 'Logged in',
       user: {...createdUser.toObject({ getters: true }), password: undefined },
@@ -140,7 +140,7 @@ class UserController {
       const error = new HttpError('Try again later', 500);
       return next(error);
     }
-    req.session.userID = existingUser._id.toString();
+   
     res.json({
       message: 'Logged in',
       user: { ...existingUser.toObject({ getters: true }), password: undefined },
