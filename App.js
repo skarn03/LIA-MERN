@@ -48,8 +48,8 @@ mongoose
 
         const io = new Server(server, {
             cors: {
-                origin: process.env.DB_FRONTEND,
-                methods: ["GET", "POST"],
+                origin: '*',
+                methods: ["GET", "POST","DELETE","PATCH"],
             },
         });
 
